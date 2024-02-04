@@ -1,0 +1,94 @@
+<style>
+    body {
+        background-image: url(../public/img/bg-bol.jpeg);
+        background: #2f3238;
+        color: #fff;
+        font-weight: 400;
+        font-size: 1em;
+        font-family: 'Raleway', Arial, sans-serif;
+    }
+    
+    .img {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    
+    .wrap {
+        width: 100%;
+        overflow: hidden;
+        background: rgb(89, 163, 99);
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+        -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+        box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    }
+    
+    .img,
+    .login-wrap {
+        width: 50%;
+    }
+    
+    @media (max-width: 991.98px) {
+        .img,
+        .login-wrap {
+            width: 100%;
+        }
+    }
+    
+    @media (max-width: 767.98px) {
+        .wrap .img {
+            height: 250px;
+        }
+    }
+</style>
+<script>
+    $('#txtId').on('keyup', function(e) {
+        var txt = $(this).val();
+        $(this).val(txt.replace(/^(.)| \s(.)/g, function($1) {
+            return $1.toUpperCase();
+        }));
+    });
+</script>
+
+
+<body>
+
+    <div style="margin-top: 8%;">
+        <div class="container mt-5 bg-opacity-25 " style="margin-top: 10%;">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-10 ">
+                    <div class="wrap d-md-flex">
+                        <div class="img" style="background-image: url(../public/img/login1.webp);">
+                        </div>
+                        <div class="login-wrap p-4 p-md-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Log In</h3>
+                                </div>
+
+                            </div>
+
+
+                            <label class="label">UserId</label>
+                            <input type="text" placeholder="Enter UserId:" class="form-control" id="txtId">
+
+
+                            <label class="label">Password</label>
+                            <input type="password" placeholder="Enter Password:" class="form-control" id="txtPwd">
+
+
+                            <div class="text-center mt-2"><button class="btn btn-dark" id="btnLogin">Log In</button></div>
+                            <div class="text-center">
+                                <button class="btn btn-link text-decoration-none  fw-bolder   text-white" id="btnNew">Not a member ?<span class="fs-6 text-dark fw-bolder"> Register</span></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
