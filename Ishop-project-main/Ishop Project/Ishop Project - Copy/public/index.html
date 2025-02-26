@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M mart | Shopping Online</title>
+    <!-- <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css"> -->
+    <!-- <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css"> -->
+     
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+
+
+
+    <style>
+        nav span {
+            margin-right: 20px;
+        }
+        
+        aside span {
+            margin-right: 8px;
+        }
+    </style>
+    <!-- <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/jquery.cookie/jquery.cookie.js"></script> -->
+
+    <!-- jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Cookie Plugin from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <script>
+        function LoadPage(pageUrl) {
+            $.ajax({
+                method: "get",
+                url: pageUrl,
+                success: (data) => {
+                    $("section").html(data);
+                }
+
+            })
+
+        }
+        $(function() {
+
+            LoadPage("home.html");
+
+            $("#navHome").click(() => {
+                LoadPage("home.html")
+            })
+
+            $("#navCustomer").click(() => {
+                LoadPage("customer.html")
+
+            })
+            $(document).on("click", "#navbtnRegister", () => {
+                LoadPage("customer-register.html")
+            });
+
+
+            $(document).on("click", "#btnRegister", () => {
+                var customer = {
+                    UserId: $("#txtId").val(),
+                    UserName: $("#txtName").val(),
+                    Password: $("#txtPwd").val(),
+                    Age: parseInt($("#txtAge").val()),
+                    Email: $("#txtEmail").val(),
+                    Mobile: $("#txtMobile").val()
+                };
+
+                if ($("#txtId").val() == "") {
+                    $("#btnRegister").prop('disabled', true);
+                    $("#useridError").html("UserId Required").css("color", 'red');
+                    alert("UserId Required")
+                } else if ($("#txtName").val() == "") {
+                    alert("User Name reuired");
+
+                } else if ($("#txtPwd").val() == "") {
+                    alert("Password Required");
+
+                } else if ($("#txtAge").val() == "") {
+                    alert("Age Required");
+
+                } else if ($("#txtEmail").val() == "") {
+                    alert("Email Id Required");
+
+                } else if ($("#txtMobile").val() == "") {
+                    alert("Mobile Number Required");
+                } else {
+
+                    $.ajax({
+                        method: "post",
+                        url: "http://localhost:4400/registercustomer",
+                        data: customer
+
+                    })
+
+                    alert("Register Successfull..");
+                    LoadPage("customer-login.html");
+
+
+                }
+
+
+
+            });
+
+            $(document).on("keyup", "#txtId", () => {
+                $.ajax({
+                    method: "get",
+                    url: "http://localhost:4400/customers",
+                    success: (customers) => {
+                        for (var customer of customers) {
+                            if (customer.UserId == $("#txtId").val()) {
+                                $("#useridError").html("User Id Taken - Try Another").css("color", "red");
+                                $("#btnRegister").prop('disabled', true);
+
+                                break;
+
+                            } else {
+                                $("#useridError").html("User Id Available").css("color", "black");
+                                $("#btnRegister").prop("disabled", false);
+                            }
+                        }
+                    }
+                })
+            });
+            $(document).on("keyup", "#txtEmail", () => {
+                $.ajax({
+                    method: "get",
+                    url: "http://localhost:4400/customers",
+                    success: (customers) => {
+                        for (var customer of customers) {
+                            if (customer.Email == $("#txtEmail").val()) {
+                                $("#useremailError").html("Email Already Exists").css("color", "red");
+                                $("#btnRegister").prop("disabled", true);
+                                break;
+                            } else {
+                                $("#useremailError").html("");
+                                $("#btnRegister").prop("disabled", false);
+                            }
+                        }
+                    }
+                })
+
+            });
+            $(document).on("keyup", "#txtMobile", () => {
+                $.ajax({
+                    method: "get",
+                    url: "http://localhost:4400/customers",
+                    success: (customers) => {
+                        for (var customer of customers) {
+                            if (customer.Mobile == $("#txtMobile").val()) {
+                                $("#usermobileError").html("Mobile Number Already Exsist").css("color", 'red');
+                                $("#btnRegister").prop("disabled", true);
+                                break;
+                            } else {
+                                $("#usermobileError").html("");
+                                $("#btnRegister").prop("disabled", false);
+                            }
+                        }
+                    }
+                })
+            });
+
+            $(document).on("click", "#navbtnLogin", () => {
+                LoadPage("customer-login.html")
+            });
+            $(document).on("click", "#btnNew", () => {
+                LoadPage("customer-register.html");
+            });
+            $(document).on("click", "#btnExsist", () => {
+                LoadPage("customer-login.html");
+            });
+            $(document).on("click", "#navProducts", () => {
+                if ($.cookie("userid") == undefined) {
+                    LoadPage("customer-login.html");
+
+                } else {
+                    LoadPage("products.html");
+                }
+
+            });
+
+            function LoadCookieData() {
+                $("#userid").html($.cookie("userid"));
+            };
+            $(document).on("click", "#btnLogin", () => {
+                $.ajax({
+                    method: "get",
+                    url: "http://localhost:4400/customers",
+                    success: (customers) => {
+                        var customer = customers.find((c) =>
+                            c.UserId === $("#txtId").val() && c.Password === $("#txtPwd").val()
+
+                        );
+                        if (customer.UserId === $("#txtId").val() && customer.Password === $("#txtPwd").val()) {
+                            $.cookie("userid", $("#txtId").val());
+                            $.ajax({
+                                method: "get",
+                                url: "http://localhost:4400/products",
+                                success: (data) => {
+                                    $.each(data, (key, product) => {
+                                        $(`<tr><td>  ${product.title}</td><td> <span class="text-success fw-bolder fs-6">&#8377;</span> ${product.price}</td><td><button class="btn btn-info"><span class="bi bi-eye-fill align-center"></span></button</td></tr>`).appendTo("tbody");
+                                    })
+                                }
+                            });
+
+                            LoadPage("products.html");
+
+                            $("#username").html($.cookie("userid"));
+                            $("#btnSignout").html("Signout").addClass("bi bi-caret-down");
+
+                        } else {
+                            LoadPage("error.html");
+
+
+                        }
+                    }
+                })
+            });
+            $(document).on("click", "#btnSignout", () => {
+
+                $.removeCookie("userid");
+                $("#username").html("");
+                LoadPage("customer-login.html");
+                $("#btnSignout").html("Login");
+            });
+            $(document).on("click", "#navAbout", () => {
+                LoadPage("about.html");
+            });
+            $(document).on("click", "#navAdmin", () => {
+                LoadPage("adminhome.html");
+            });
+        });
+        // touppercase
+        $('#txtName').on('keyup', function(e) {
+            var txt = $(this).val();
+            $(this).val(txt.replace(/^(.)| \s(.)/g, function($1) {
+                return $1.toUpperCase();
+            }));
+        });
+    </script>
+</head>
+
+<body class="container-fluid ">
+    <header class=" d-flex justify-content-between text-white p-2  fw-bolder fixed-top bg-success bg-opacity-25">
+        <div class="brand"> <img src="../public/img/images.png" height="40px " width="50px"></div>
+        <nav>
+            <span><button class="btn btn-link text-white text-decoration-none fw-bolder" id="navHome">Home</button></span>
+            <span><button class="btn btn-link text-white text-decoration-none fw-bolder" id="navCustomer">Customer</button></span>
+            <span><button class="btn btn-link text-white text-decoration-none fw-bolder" id="navAdmin">Admin</button></span>
+            <span><button class="btn btn-link text-white text-decoration-none fw-bolder" id="navProducts">Products</button></span>
+            <span><button class="btn btn-link text-white text-decoration-none fw-bolder" id="navAbout">About</button></span>
+
+        </nav>
+        <aside>
+
+            <input type="text w-100"> <span class="bi bi-search"></span>
+            <span class="bi bi-person"></span>
+            <span id="username" class="text-white fw-bolder" style="text-shadow: 1px 1px 1px rgb(148, 219, 154);"></span>
+            <span class=" bi bi-caret-right btn btn-link text-white text-decoration-none fw-bolder" id="btnSignout"> Login</span>
+        </aside>
+    </header>
+    <section class="mt-4">
+
+    </section>
+</body>
+
+</html>

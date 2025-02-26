@@ -1,0 +1,116 @@
+<style>
+    body {
+        background: #2f3238;
+        color: #fff;
+        font-weight: 400;
+        font-size: 1em;
+        font-family: 'Raleway', Arial, sans-serif;
+    }
+    
+    .img {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    
+    .wrap {
+        width: 100%;
+        overflow: hidden;
+        background: rgb(89, 163, 99);
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+        -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+        box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+    }
+    
+    .img,
+    .login-wrap {
+        width: 50%;
+    }
+    
+    @media (max-width: 991.98px) {
+        .img,
+        .login-wrap {
+            width: 100%;
+        }
+    }
+    
+    @media (max-width: 767.98px) {
+        .wrap .img {
+            height: 250px;
+        }
+    }
+    /* .uppercase{
+    text-transform: uppercase;
+  } */
+</style>
+<script>
+    // // touppercase
+    // // $('#txtName').on('keyup' , function(e){
+    // //   var txt = $(this).val();
+    // //   $(this).val(txt.replace( /^(.)| \s(.)/g , function($1){
+    // //     return $1.toUpperCase();
+    // //   }));
+    // });
+    $('#txtId').on('keyup', function(e) {
+        var txt = $(this).val();
+        $(this).val(txt.replace(/^(.)| \s(.)/g, function($1) {
+            return $1.toUpperCase();
+        }));
+    });
+</script>
+
+
+<div style="margin-top: 5%;">
+    <div class="container mt-5 bg-opacity-25 " style="margin-top: 10%;">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10 ">
+                <div class="wrap d-md-flex">
+                    <div class="img" style="background-image: url(../public/img/Annotation\ .png);">
+                    </div>
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4 fw-bolder text-dark">Register</h3>
+                            </div>
+
+                        </div>
+
+
+                        <label class="label">UserId</label>
+                        <input type="text" placeholder="UserId:" class="form-control" id="txtId">
+                        <dd id="useridError"></dd>
+
+
+                        <label class="label">UserName</label>
+                        <input type="text" placeholder="UserName:" class="form-control uppercase" id="txtName">
+                        <dd id="usernameError"></dd>
+
+                        <label class="label">Password</label>
+                        <input type="text" placeholder="Password:" class="form-control" id="txtPwd">
+                        <dd id="userpwdError"></dd>
+
+                        <label class="label">Age</label>
+                        <input type="number" placeholder="Age:" class="form-control" id="txtAge" min="15" max="90" value="18">
+                        <dd id="userageError"></dd>
+
+                        <label class="label">Email</label>
+                        <input type="email" placeholder="Email:" class="form-control" id="txtEmail">
+                        <dd id="useremailError"></dd>
+
+                        <label class="label">Mobile</label>
+                        <input type="text" placeholder="Mobile:" class="form-control" id="txtMobile">
+                        <dd id="usermobileError"></dd>
+
+
+                        <div class="text-center mt-2"><button class="btn btn-dark" id="btnRegister">Register</button></div>
+                        <div class="text-center">
+                            <button class="btn btn-link text-decoration-none  fw-bolder   text-white" id="btnExsist">Already a member ?<span class="fs-6 text-dark fw-bolder"> Login </span></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
